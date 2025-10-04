@@ -1,0 +1,1 @@
+Устав проекта - https://docs.google.com/document/d/1IHGmwBgo-HsVi5XQKFIArhMHDwBhVW7a/edit
