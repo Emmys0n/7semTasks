@@ -1,4 +1,3 @@
-
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -61,8 +60,6 @@ def experimental_total_error_type1_class1(rv1, rv2, p1, p2, sample_size, num_tri
     totals = np.array(totals, dtype=float)
     return totals.mean(), totals.std(ddof=1)
 
-
-# Визуализация в стиле друга: 3 subplot'а
 def visualize_original_data(rv1, rv2, p1, p2, num_samples=1000):
     # 1) Генерация тестовых данных (по 1000 из каждого класса)
     samples1 = rv1.rvs(size=num_samples)
@@ -95,8 +92,6 @@ def visualize_original_data(rv1, rv2, p1, p2, num_samples=1000):
     all_x = X[:,0]; all_y = X[:,1]
     x_min, x_max = all_x.min()-2, all_x.max()+2
     y_min, y_max = all_y.min()-2, all_y.max()+2
-
-
 
     # (2) Облака точек + эллипсы
     plt.subplot(1, 3, 2)
@@ -160,11 +155,124 @@ def visualize_original_data(rv1, rv2, p1, p2, num_samples=1000):
 
     return cm
 
-#
+# график "увеличить вероятность правильного распознавания"
+def shift_means_apart(m1, m2, k=0.75):
+    """
+    Раздвигаем центры вдоль прямой между ними:
+    m1' = m1 + k*(m1 - m2), m2' = m2 + k*(m2 - m1)
+    k>0 — чем больше, тем дальше центры.
+    """
+    v = m1 - m2
+    m1_new = m1 + k * v
+    m2_new = m2 - k * v
+    return m1_new, m2_new
+
+def confusion_and_acc(samples1, samples2, rv1, rv2, p1, p2):
+    """Векторно считаем матрицу ошибок и точность для пары облаков."""
+    X = np.vstack([samples1, samples2])
+    y_true = np.array([1]*len(samples1) + [2]*len(samples2))
+    prob1 = rv1.pdf(X) * p1
+    prob2 = rv2.pdf(X) * p2
+    y_pred = np.where(prob1 >= prob2, 1, 2)
+    cm = confusion_matrix(y_true, y_pred, labels=[1,2])
+    acc = np.trace(cm) / np.sum(cm)
+    return cm, acc, X
+
+def add_cov_ellipse(ax, mean, cov, color, alpha=0.25):
+    """Рисуем 95%-эллипс (χ²_2(0.95)≈5.991)."""
+    vals, vecs = np.linalg.eigh(cov)
+    width  = 2*np.sqrt(5.991*vals[1])
+    height = 2*np.sqrt(5.991*vals[0])
+    angle = np.degrees(np.arctan2(vecs[1,1], vecs[0,1]))
+    ax.add_patch(Ellipse(mean, width, height, angle=angle,
+                         facecolor=color, edgecolor=color, alpha=alpha))
+
+def plot_decision(ax, rv1, rv2, p1, p2, xlim, ylim):
+    """Контур QDA-границы (g1=g2)."""
+    xs = np.linspace(xlim[0], xlim[1], 300)
+    ys = np.linspace(ylim[0], ylim[1], 300)
+    XX, YY = np.meshgrid(xs, ys)
+    grid = np.stack([XX.ravel(), YY.ravel()], axis=1)
+    Z = np.where(rv1.pdf(grid)*p1 >= rv2.pdf(grid)*p2, 1, 2).reshape(XX.shape)
+    ax.contour(XX, YY, Z, levels=[1.5], colors='k', linestyles='--', linewidths=2)
+
+def plot_improvement(m1, m2, C1, C2, p1, p2, num_samples=1000, k_shift=0.75):
+    """
+    Две панели: слева — исходные параметры, справа — улучшенные (центры раздвинуты).
+    Печатаем точность и рисуем всё в стиле ЛР-2.
+    """
+    # Исходные распределения
+    rv1_orig = multivariate_normal(mean=m1, cov=C1)
+    rv2_orig = multivariate_normal(mean=m2, cov=C2)
+    samp1_o = rv1_orig.rvs(size=num_samples)
+    samp2_o = rv2_orig.rvs(size=num_samples)
+    cm_o, acc_o, Xo = confusion_and_acc(samp1_o, samp2_o, rv1_orig, rv2_orig, p1, p2)
+
+    # Улучшенные (раздвинули центры)
+    m1_new, m2_new = shift_means_apart(m1, m2, k=k_shift)
+    rv1_new = multivariate_normal(mean=m1_new, cov=C1)
+    rv2_new = multivariate_normal(mean=m2_new, cov=C2)
+    samp1_n = rv1_new.rvs(size=num_samples)
+    samp2_n = rv2_new.rvs(size=num_samples)
+    cm_n, acc_n, Xn = confusion_and_acc(samp1_n, samp2_n, rv1_new, rv2_new, p1, p2)
+
+    # Общие пределы осей
+    allX = np.vstack([Xo, Xn])
+    xlim = (allX[:,0].min()-2, allX[:,0].max()+2)
+    ylim = (allX[:,1].min()-2, allX[:,1].max()+2)
+
+    # Фигура: 1x2
+    fig, axes = plt.subplots(1, 2, figsize=(14, 6))
+
+    # ---- ЛЕВО: исходные
+    ax = axes[0]
+    ax.scatter(samp1_o[:,0], samp1_o[:,1], s=10, alpha=0.6, label='Класс 1', color='red')
+    ax.scatter(samp2_o[:,0], samp2_o[:,1], s=10, alpha=0.6, label='Класс 2', color='blue')
+    ax.scatter(m1[0], m1[1], s=100, marker='x', linewidth=3, color='darkred', label='Центр 1')
+    ax.scatter(m2[0], m2[1], s=100, marker='x', linewidth=3, color='darkblue', label='Центр 2')
+    add_cov_ellipse(ax, m1, C1, 'red', 0.22)
+    add_cov_ellipse(ax, m2, C2, 'blue', 0.22)
+    plot_decision(ax, rv1_orig, rv2_orig, p1, p2, xlim, ylim)
+    sns.heatmap(cm_o, annot=True, fmt='d', cmap='Blues',
+                cbar=False, xticklabels=['Кл.1','Кл.2'], yticklabels=['Кл.1','Кл.2'],
+                ax=ax.inset_axes([0.02, 0.62, 0.33, 0.33]))
+    ax.set_xlim(*xlim); ax.set_ylim(*ylim)
+    ax.set_title(f'Исходные параметры\nТочность: {acc_o:.3f}')
+    ax.set_xlabel('Признак 1'); ax.set_ylabel('Признак 2')
+    ax.grid(True, alpha=0.3)
+    ax.legend(loc='upper right', fontsize=8)
+
+    # ---- ПРАВО: улучшенные
+    ax = axes[1]
+    ax.scatter(samp1_n[:,0], samp1_n[:,1], s=10, alpha=0.6, label='Класс 1', color='red')
+    ax.scatter(samp2_n[:,0], samp2_n[:,1], s=10, alpha=0.6, label='Класс 2', color='blue')
+    ax.scatter(m1_new[0], m1_new[1], s=100, marker='x', linewidth=3, color='darkred', label='Центр 1 (нов.)')
+    ax.scatter(m2_new[0], m2_new[1], s=100, marker='x', linewidth=3, color='darkblue', label='Центр 2 (нов.)')
+    add_cov_ellipse(ax, m1_new, C1, 'red', 0.22)
+    add_cov_ellipse(ax, m2_new, C2, 'blue', 0.22)
+    plot_decision(ax, rv1_new, rv2_new, p1, p2, xlim, ylim)
+    sns.heatmap(cm_n, annot=True, fmt='d', cmap='Greens',
+                cbar=False, xticklabels=['Кл.1','Кл.2'], yticklabels=['Кл.1','Кл.2'],
+                ax=ax.inset_axes([0.02, 0.62, 0.33, 0.33]))
+    ax.set_xlim(*xlim); ax.set_ylim(*ylim)
+    ax.set_title(f'Раздвинули центры (k={k_shift})\nТочность: {acc_n:.3f}')
+    ax.set_xlabel('Признак 1'); ax.set_ylabel('Признак 2')
+    ax.grid(True, alpha=0.3)
+    ax.legend(loc='upper right', fontsize=8)
+
+    plt.suptitle('Увеличение вероятности правильного распознавания: ДО vs ПОСЛЕ', fontsize=14, fontweight='bold')
+    plt.tight_layout()
+    plt.show()
+
+    # Напечатаем сводку в консоль
+    print('=== Сводка улучшения ===')
+    print('Исходные:   точность = {:.4f}, матрица ошибок:\n{}'.format(acc_o, cm_o))
+    print('Улучшенные: точность = {:.4f}, матрица ошибок:\n{}'.format(acc_n, cm_n))
+
 # Запуск визуализации + исследовательская часть
-#
 if __name__ == "__main__":
     cm = visualize_original_data(rv1, rv2, p1, p2)
+    plot_improvement(m1, m2, C1, C2, p1, p2, num_samples=1000, k_shift=0.75)
 
     # Размеры выборок (как у друга)
     sample_sizes = [50, 100, 200, 500, 1000, 2000, 5000]
@@ -183,8 +291,6 @@ if __name__ == "__main__":
         difference_stds.append(exp_std)
 
         print(f"{size:13d} | {diff:+8.2f}               | {exp_std:6.2f}")
-
-
 
     # График разности суммарных ошибок (эксп - теор) c СКО
     plt.figure(figsize=(12, 8))
