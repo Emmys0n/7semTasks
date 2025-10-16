@@ -4,7 +4,7 @@ import seaborn as sns
 from sklearn.metrics import confusion_matrix
 from matplotlib.patches import Ellipse
 
-# Исходные данные (вариант №21)
+# Исходные данные
 m1 = np.array([ 2, -1])  # Математическое ожидание (центр) класса 1
 m2 = np.array([-1,  1])  # Математическое ожидание (центр) класса 2
 C = np.array([[3, -1],  # Общая ковариационная матрица для всех классов (2x2 матрица)
@@ -32,9 +32,10 @@ def run_experiment(means, cov, priors, title, num_samples=1000):
     samples = []                                   # Здесь будем хранить массивы точек по классам
     y_true = []                                    # Истинные метки классов
     for i, m in enumerate(means):
-        sample = np.random.multivariate_normal(m, cov, num_samples)  # Генерируем num_samples точек из N(m, C)
-        samples.append(sample)                                   # Сохраняем точки класса i
-        y_true.extend([i + 1] * num_samples)                     # Добавляем метки класса (i+1 повторяется num_samples раз)
+        n_i = num_samples[i] if isinstance(num_samples, (list, tuple)) else num_samples
+        sample = np.random.multivariate_normal(m, cov, n_i)
+        samples.append(sample)
+        y_true.extend([i + 1] * n_i)
 
     X = np.vstack(samples)                         # Объединяем все точки в одну матрицу размером (2*num_samples x 2)
     y_pred = [classify(x, means, C_inv, priors) for x in X]  # Классифицируем каждую точку и сохраняем предсказания
@@ -43,7 +44,7 @@ def run_experiment(means, cov, priors, title, num_samples=1000):
     cm = confusion_matrix(y_true, y_pred)          # Строим матрицу ошибок (confusion matrix) 2x2
     accuracy = np.trace(cm) / np.sum(cm)           # Точность: сумма по диагонали / общее число объектов
 
-    # Визуализация результатов (графики)
+    # Визуализация результатов (графики)§
     plt.figure(figsize=(18, 5))                    # Общая фигура для трёх графиков
 
     # 1. График матрицы ошибок
@@ -55,7 +56,7 @@ def run_experiment(means, cov, priors, title, num_samples=1000):
 
     # 2. График распределения точек и разделяющей поверхности
     plt.subplot(1, 3, 2)                           # Второй подграфик
-    colors = ['red', 'blue']                       # Цвета для класса 1 и 2
+    colors = ['red', 'blue']                             # Цвета для класса 1 и 2
     for i, sample in enumerate(samples):
         plt.scatter(sample[:, 0], sample[:, 1], alpha=0.6, label=f'Класс {i + 1}', color=colors[i], s=10)  # Точки классов
 
@@ -107,40 +108,42 @@ if __name__ == "__main__":
     priors = [0.5, 0.5]  # Вероятности классов 1 и 2, априорные (равные)
 
     # Исходные данные
-    cm_original, acc_original = run_experiment([m1, m2], C, priors, "Исходные данные")
+    cm_original, acc_original = run_experiment([m1, m2], C, priors, "Исходные данные", num_samples=1000)
 
     # a) Увеличить вероятность правильного распознавания
     m1_a = np.array([ 4, -3])  # Сдвигаем центр класса 1 дальше от класса 2
     m2_a = np.array([-3,  3])  # Сдвигаем центр класса 2 дальше от класса 1
-    cm_a, acc_a = run_experiment([m1_a, m2_a], C, priors, "a) Увеличение расстояния между классами")
+    cm_a, acc_a = run_experiment([m1_a, m2_a], C, priors, "a) Увеличение расстояния", num_samples=(1000, 1000))
 
     # b) Увеличить суммарную ошибку
     m_mid = (m1 + m2) / 2                        # Геометрический центр между классами
     m1_b = m_mid + np.array([+0.2, -0.2])        # Приближаем центры друг к другу
     m2_b = m_mid + np.array([-0.2, +0.2])        # Чем ближе центры — тем больше перекрытие
-    cm_b, acc_b = run_experiment([m1_b, m2_b], C, priors, "b) Приближение центров классов")
+    cm_b, acc_b = run_experiment([m1_b, m2_b], C, priors, "b) Приближение центров", num_samples=(900, 1100))
+
+
 
     # c) Увеличить ошибку 1-го рода, уменьшить ошибку 2-го рода (для класса 1)
     priors_c = [0.3, 0.7]
     m1_c = m1 + 0.5 * (m2 - m1)
-    cm_c, acc_c = run_experiment([m1_c, m2], C, priors_c, "c) Ассиметричное изменение")
+    cm_c, acc_c = run_experiment([m1_c, m2], C, priors, "c) Ассиметричное изменение", num_samples=(200, 1400))
 
     # d) Увеличить ошибку 2-го рода, уменьшить ошибку 1-го рода (для класса 1)
     priors_d = [0.7, 0.3]
     m2_d = m2 + 0.5 * (m1 - m2)
-    cm_d, acc_d = run_experiment([m1, m2_d], C, priors_d, "d) Обратная ассиметрия")
+    cm_d, acc_d = run_experiment([m1, m2_d], C, priors, "d) Обратная ассиметрия", num_samples=(1400, 200))
 
     # e) Увеличить протяженность кластеров в одном из направлений (растянуть форму по оси X)
     C_e = np.array([[9, -1],                      # Увеличиваем дисперсию по первому признаку (ось X)
                     [-1, 3]])                     # Дисперсия по второму признаку без изменений
-    cm_e, acc_e = run_experiment([m1, m2], C_e, priors, "e) Растяжение по горизонтали")
+    cm_e, acc_e = run_experiment([m1, m2], C_e, priors, "e) Растяжение", num_samples=(1000, 1000))
 
     # f) Зеркально отразить форму областей локализации (по Y, меняем знак корреляции)
     C_f = np.array([[3,  1],                      # Меняем знак внедиагонального элемента (-1 -> +1)
                     [1,  3]])                     # Отражение по оси Y меняет наклон эллипсов
     m1_f = np.array([-m1[0], m1[1]])              # Координаты центров отражаем по X: (x, y) -> (-x, y)
     m2_f = np.array([-m2[0], m2[1]])
-    cm_f, acc_f = run_experiment([m1_f, m2_f], C_f, priors, "f) Зеркальное отражение форм кластеров")
+    cm_f, acc_f = run_experiment([m1_f, m2_f], C_f, priors, "f) Зеркальное отражение", num_samples=(1000, 1000))
 
     print("=" * 60)
     print("СВОДНАЯ ТАБЛИЦА РЕЗУЛЬТАТОВ")
