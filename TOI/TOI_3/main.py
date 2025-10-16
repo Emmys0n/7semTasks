@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -6,9 +6,6 @@ from scipy.stats import multivariate_normal
 from sklearn.metrics import confusion_matrix
 from matplotlib.patches import Ellipse
 
-# ==========================
-# Вариант №1 (ЛР-3, разные ковариации)
-# ==========================
 m1 = np.array([ 2.0,  1.0])  # центр класса 1
 m2 = np.array([-1.0,  1.0])  # центр класса 2
 
@@ -26,17 +23,14 @@ np.random.seed(42)
 rv1 = multivariate_normal(mean=m1, cov=C1)
 rv2 = multivariate_normal(mean=m2, cov=C2)
 
-# ==========================
+
 # Байесовский классификатор (QDA)
-# ==========================
 def bayes_classifier(x, rv1, rv2, p1, p2):
     # Сравниваем P(w1|x) ~ p(x|w1)P(w1) и P(w2|x) ~ p(x|w2)P(w2)
     # Можно работать в pdf (вероятностях), SciPy сам стабилен для 2D
     return 1 if (rv1.pdf(x) * p1) >= (rv2.pdf(x) * p2) else 2
 
-# ==========================
 # Теоретическая (MC) и экспериментальная СУММАРНЫЕ ошибки 1-го рода
-# ==========================
 def theoretical_total_error_type1_class1(rv1, rv2, p1, p2, sample_size, mc_n=100000):
     """
     MC-оценка теоретической вероятности ошибки 1-го рода:
@@ -67,9 +61,8 @@ def experimental_total_error_type1_class1(rv1, rv2, p1, p2, sample_size, num_tri
     totals = np.array(totals, dtype=float)
     return totals.mean(), totals.std(ddof=1)
 
-# ==========================
+
 # Визуализация в стиле друга: 3 subplot'а
-# ==========================
 def visualize_original_data(rv1, rv2, p1, p2, num_samples=1000):
     # 1) Генерация тестовых данных (по 1000 из каждого класса)
     samples1 = rv1.rvs(size=num_samples)
@@ -102,6 +95,8 @@ def visualize_original_data(rv1, rv2, p1, p2, num_samples=1000):
     all_x = X[:,0]; all_y = X[:,1]
     x_min, x_max = all_x.min()-2, all_x.max()+2
     y_min, y_max = all_y.min()-2, all_y.max()+2
+
+
 
     # (2) Облака точек + эллипсы
     plt.subplot(1, 3, 2)
@@ -165,9 +160,9 @@ def visualize_original_data(rv1, rv2, p1, p2, num_samples=1000):
 
     return cm
 
-# ==========================
+#
 # Запуск визуализации + исследовательская часть
-# ==========================
+#
 if __name__ == "__main__":
     cm = visualize_original_data(rv1, rv2, p1, p2)
 
@@ -188,6 +183,8 @@ if __name__ == "__main__":
         difference_stds.append(exp_std)
 
         print(f"{size:13d} | {diff:+8.2f}               | {exp_std:6.2f}")
+
+
 
     # График разности суммарных ошибок (эксп - теор) c СКО
     plt.figure(figsize=(12, 8))
