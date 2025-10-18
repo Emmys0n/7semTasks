@@ -103,6 +103,19 @@ print(confusion_matrix(y_test, y_pred))
 print("\nКлассификационный отчёт:")
 print(classification_report(y_test, y_pred, digits=3))
 
+# --- Визуализация матрицы ошибок на тестовой выборке ---
+import seaborn as sns
+
+cm = confusion_matrix(y_test, y_pred)
+plt.figure(figsize=(6, 5))
+sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", cbar=False,
+            xticklabels=np.unique(y), yticklabels=np.unique(y))
+plt.title("Матрица ошибок (тестовая выборка)")
+plt.xlabel("Предсказанный класс")
+plt.ylabel("Истинный класс")
+plt.tight_layout()
+plt.show()
+
 # 4.1) Кривая подбора k (фиксируем лучшие weights/metric)
 fixed_metric  = best_params["knn__metric"]
 fixed_weights = best_params["knn__weights"]
