@@ -1,0 +1,94 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:144.0) Gecko/20100101 Firefox/144.0" version="28.2.8">
+  <diagram id="airport-frames" name="Аэропорт (диспетчерская)">
+    <mxGraphModel dx="1665" dy="826" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1920" pageHeight="1080" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="human" value="ЧЕЛОВЕК" style="shape=rectangle;whiteSpace=wrap;html=1;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry x="790" y="110" width="200" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="dispatcher" value="ДИСПЕТЧЕР" style="shape=rectangle;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="430" y="240" width="200" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="pilot" value="ПИЛОТ" style="shape=rectangle;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="1130" y="160" width="200" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="e_human_dispatcher" value="AKO" style="endArrow=block;html=1;labelBackgroundColor=#ffffff;" parent="1" source="human" target="dispatcher" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_human_pilot" value="AKO" style="endArrow=block;html=1;labelBackgroundColor=#ffffff;" parent="1" source="human" target="pilot" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="petrov" value="ПЕТРОВ&#xa;(AKО ДИСПЕТЧЕР)" style="shape=rectangle;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="280" y="390" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ivanov" value="ИВАНОВ&#xa;(AKО ПИЛОТ)" style="shape=rectangle;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="1350" y="370" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="e_dispatcher_petrov" value="AKO" style="endArrow=block;html=1;labelBackgroundColor=#ffffff;" parent="1" source="dispatcher" target="petrov" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_pilot_ivanov" value="AKO" style="endArrow=block;html=1;labelBackgroundColor=#ffffff;" parent="1" source="pilot" target="ivanov" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="flight" value="РЕЙС SU1234&#xa;(AKО РЕЙС)" style="shape=rectangle;whiteSpace=wrap;html=1;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="760" y="280" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="e_flight_pilot" value="Слот: «Пилот»" style="endArrow=block;html=1;labelBackgroundColor=#ffffff;" parent="1" source="flight" target="ivanov" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_flight_dispatcher" value="Слот: «Диспетчер»" style="endArrow=block;html=1;labelBackgroundColor=#ffffff;" parent="1" source="flight" target="petrov" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="airport" value="АЭРОПОРТ «ШЕРЕМЕТЬЕВО»" style="shape=rectangle;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="730" y="450" width="260" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aircraft" value="САМОЛЁТ&#xa;Airbus A320 RA-73145" style="shape=rectangle;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="430" y="510" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="e_flight_airport" value="Слот: «Аэропорт»" style="endArrow=block;html=1;labelBackgroundColor=#ffffff;" parent="1" source="flight" target="airport" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_flight_aircraft" value="Слот: «Самолёт»" style="endArrow=block;html=1;labelBackgroundColor=#ffffff;" parent="1" source="flight" target="aircraft" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="scenario" value="ОБСЛУЖИВАНИЕ РЕЙСА SU1234&#xa;(AKО ОБСЛУЖИВАНИЕ РЕЙСА)" style="shape=rectangle;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="1130" y="470" width="300" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="e_flight_scenario" value="Слот: «Сцены»" style="endArrow=block;html=1;labelBackgroundColor=#ffffff;" parent="1" source="flight" target="scenario" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="scene1" value="СЦЕНА 1: Проверка метеоусловий" style="shape=rectangle;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="600" y="610" width="300" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="scene2" value="СЦЕНА 2: Разрешение на взлёт" style="shape=rectangle;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="750" y="710" width="300" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="scene3" value="СЦЕНА 3: Контроль в полёте" style="shape=rectangle;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="940" y="810" width="300" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="scene4" value="СЦЕНА 4: Разрешение на посадку" style="shape=rectangle;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="1150" y="900" width="300" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="scene5" value="СЦЕНА 5: Завершение рейса" style="shape=rectangle;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="1440" y="800" width="300" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="e_scn_s1" value="Слот: «Сцена 1»" style="endArrow=block;html=1;labelBackgroundColor=#ffffff;" parent="1" source="scenario" target="scene1" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_scn_s2" value="Слот: «Сцена 2»" style="endArrow=block;html=1;labelBackgroundColor=#ffffff;" parent="1" source="scenario" target="scene2" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_scn_s3" value="Слот: «Сцена 3»" style="endArrow=block;html=1;labelBackgroundColor=#ffffff;" parent="1" source="scenario" target="scene3" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_scn_s4" value="Слот: «Сцена 4»" style="endArrow=block;html=1;labelBackgroundColor=#ffffff;" parent="1" source="scenario" target="scene4" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_scn_s5" value="Слот: «Сцена 5»" style="endArrow=block;html=1;labelBackgroundColor=#ffffff;" parent="1" source="scenario" target="scene5" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
