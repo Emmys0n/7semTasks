@@ -1,0 +1,367 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.semanticweb.org/pavel/ontologies/2025/9/untitled-ontology-2"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="http://www.semanticweb.org/pavel/ontologies/2025/9/untitled-ontology-2">
+    <Prefix name="" IRI="http://www.semanticweb.org/pavel/ontologies/2025/9/untitled-ontology-2"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Declaration>
+        <Class IRI="#Author"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Book"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Contract"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Designer"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Editor"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Employee"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Genre"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Magazine"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Newspaper"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Organization"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Person"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Publication"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Publisher"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Reader"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Review"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Series"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#belongsToGenre"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasAuthor"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasPublisher"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#publishes"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#reads"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#writes"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasAddress"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasEmail"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasISBN"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasName"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasTitle"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasYear"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#classic"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#eksmo"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#eksmo_org"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#ivanov"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#tolstoy"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#war_and_peace"/>
+    </Declaration>
+    <SubClassOf>
+        <Class IRI="#Author"/>
+        <Class IRI="#Person"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Book"/>
+        <Class IRI="#Publication"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Designer"/>
+        <Class IRI="#Employee"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Editor"/>
+        <Class IRI="#Employee"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Employee"/>
+        <Class IRI="#Person"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Magazine"/>
+        <Class IRI="#Publication"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Newspaper"/>
+        <Class IRI="#Publication"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Publisher"/>
+        <Class IRI="#Organization"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Reader"/>
+        <Class IRI="#Person"/>
+    </SubClassOf>
+    <ClassAssertion>
+        <Class IRI="#Genre"/>
+        <NamedIndividual IRI="#classic"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Publisher"/>
+        <NamedIndividual IRI="#eksmo"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Organization"/>
+        <NamedIndividual IRI="#eksmo_org"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Reader"/>
+        <NamedIndividual IRI="#ivanov"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Author"/>
+        <NamedIndividual IRI="#tolstoy"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Book"/>
+        <NamedIndividual IRI="#war_and_peace"/>
+    </ClassAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#publishes"/>
+        <NamedIndividual IRI="#eksmo"/>
+        <NamedIndividual IRI="#war_and_peace"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#reads"/>
+        <NamedIndividual IRI="#ivanov"/>
+        <NamedIndividual IRI="#war_and_peace"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#writes"/>
+        <NamedIndividual IRI="#tolstoy"/>
+        <NamedIndividual IRI="#war_and_peace"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#belongsToGenre"/>
+        <NamedIndividual IRI="#war_and_peace"/>
+        <NamedIndividual IRI="#classic"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasAuthor"/>
+        <NamedIndividual IRI="#war_and_peace"/>
+        <NamedIndividual IRI="#tolstoy"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasPublisher"/>
+        <NamedIndividual IRI="#war_and_peace"/>
+        <NamedIndividual IRI="#eksmo"/>
+    </ObjectPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasName"/>
+        <NamedIndividual IRI="#classic"/>
+        <Literal>Классика</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasName"/>
+        <NamedIndividual IRI="#eksmo"/>
+        <Literal>Эксмо</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasAddress"/>
+        <NamedIndividual IRI="#eksmo_org"/>
+        <Literal>Москва, Ленинградский проспект, 39</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasEmail"/>
+        <NamedIndividual IRI="#ivanov"/>
+        <Literal>ivanov@mail.ru</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasName"/>
+        <NamedIndividual IRI="#ivanov"/>
+        <Literal>Иван Иванов</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasName"/>
+        <NamedIndividual IRI="#tolstoy"/>
+        <Literal>Лев Толстой</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasISBN"/>
+        <NamedIndividual IRI="#war_and_peace"/>
+        <Literal>978-5-389-08915-0</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasTitle"/>
+        <NamedIndividual IRI="#war_and_peace"/>
+        <Literal>Война и мир</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasYear"/>
+        <NamedIndividual IRI="#war_and_peace"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1869</Literal>
+    </DataPropertyAssertion>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasAuthor"/>
+        <ObjectProperty IRI="#writes"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasPublisher"/>
+        <ObjectProperty IRI="#publishes"/>
+    </InverseObjectProperties>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#hasAuthor"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#hasPublisher"/>
+    </FunctionalObjectProperty>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#belongsToGenre"/>
+        <Class IRI="#Publication"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasAuthor"/>
+        <Class IRI="#Book"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasPublisher"/>
+        <Class IRI="#Book"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#publishes"/>
+        <Class IRI="#Publisher"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#reads"/>
+        <Class IRI="#Reader"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#writes"/>
+        <Class IRI="#Author"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#belongsToGenre"/>
+        <Class IRI="#Genre"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasAuthor"/>
+        <Class IRI="#Author"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasPublisher"/>
+        <Class IRI="#Publisher"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#publishes"/>
+        <Class IRI="#Publication"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#reads"/>
+        <Class IRI="#Book"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#writes"/>
+        <Class IRI="#Book"/>
+    </ObjectPropertyRange>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasAddress"/>
+        <Class IRI="#Organization"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasEmail"/>
+        <Class IRI="#Reader"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasISBN"/>
+        <Class IRI="#Book"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasName"/>
+        <Class IRI="#Person"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasTitle"/>
+        <Class IRI="#Publication"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasYear"/>
+        <Class IRI="#Publication"/>
+    </DataPropertyDomain>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasAddress"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasEmail"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasISBN"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasName"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasTitle"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasYear"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+
