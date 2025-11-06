@@ -1,5 +1,3 @@
-# ai7_svm_report.py
-# ЛР-7. Задание 3. SVM для 4 классов: (A) линейно разделимые и (B) с пересечением
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.svm import SVC
@@ -10,9 +8,7 @@ from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, accuracy_s
 
 RNG = np.random.default_rng(42)
 
-# --
 # Генерация данных (4 гауссовых класса)
-# --
 def generate_4_gaussians(n_per_class=300, dist=4.0, spread=0.25, rng=RNG):
     """
     4 класса в вершинах квадрата:
@@ -32,9 +28,7 @@ def generate_4_gaussians(n_per_class=300, dist=4.0, spread=0.25, rng=RNG):
     y = np.hstack(y_list)
     return X, y
 
-# --
 # Обучение и оценка
-# --
 def evaluate_svm(X, y, test_size=0.3, random_state=42, kfold_splits=5, kernel='linear'):
     clf = make_pipeline(StandardScaler(), SVC(kernel=kernel, C=1.0, decision_function_shape='ovr', random_state=random_state))
     Xtr, Xte, ytr, yte = train_test_split(X, y, test_size=test_size, stratify=y, random_state=random_state)
@@ -62,9 +56,7 @@ def evaluate_svm(X, y, test_size=0.3, random_state=42, kfold_splits=5, kernel='l
                 acc=acc, err_total=err_total, per_class_errors=per_class_errors,
                 cv_err_mean=cv_err_mean, cv_err_std=cv_err_std, report=report)
 
-# --
 # Визуализация: зоны решений
-# --
 def plot_regions(ax, X, y, clf, title):
     x_min, x_max = X[:,0].min() - 1.5, X[:,0].max() + 1.5
     y_min, y_max = X[:,1].min() - 1.5, X[:,1].max() + 1.5
@@ -91,9 +83,7 @@ def show_confmat_side_by_side(cmA, cmB, titles=("A", "B")):
     plt.tight_layout()
     plt.show()
 
-# --
 # Основной сценарий: два случая
-# --
 def main():
     # (A) Идеально разделимые
     XA, yA = generate_4_gaussians(n_per_class=300, dist=4.0, spread=0.25)
