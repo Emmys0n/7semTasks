@@ -113,7 +113,7 @@ def main():
     #  Матрицы ошибок рядом 
     show_confmat_side_by_side(resA["cm"], resB["cm"], titles=("A (разделимые)", "B (пересечение)"))
 
-    # (необяз.) подробные отчёты по тесту — можно вставить в приложение отчёта
+    # (необяз.) подробные отчёты по тесту
     print("\n Classification report — A (разделимые) ")
     print(resA["report"])
     print("\n Classification report — B (пересечение) ")
