@@ -83,14 +83,14 @@ def show_confmat_side_by_side(cmA, cmB, titles=("A", "B")):
     plt.tight_layout()
     plt.show()
 
-# Основной сценарий: два случая
+# Основной сценарий
 def main():
     # (A) Идеально разделимые
     XA, yA = generate_4_gaussians(n_per_class=300, dist=4.0, spread=0.25)
     resA = evaluate_svm(XA, yA, kernel='linear')
 
     # (B) Частично пересекающиеся
-    XB, yB = generate_4_gaussians(n_per_class=300, dist=3.0, spread=5.2)
+    XB, yB = generate_4_gaussians(n_per_class=300, dist=3.0, spread=3.2)
     resB = evaluate_svm(XB, yB, kernel='linear')
 
     #  Табличка в консоль 

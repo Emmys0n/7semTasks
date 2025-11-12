@@ -14,7 +14,7 @@ PLOT_DECISION  = True      # карта решений Парзена
 PLOT_SWEEP     = True      # график P(err) vs h
 RANDOM_SEED    = 42
 
-# ПАРАМЕТРЫ КЛАССОВ (по ЛР-3)
+# ПАРАМЕТРЫ КЛАССОВ
 
 m1 = np.array([ 2.0, 1.0])
 m2 = np.array([-1.0, 1.0])
@@ -55,7 +55,8 @@ def scott_bandwidth_isotropic(X):
     """
     n, d = X.shape
     sigma = X.std(axis=0, ddof=1).mean()
-    h = sigma * n ** (-1.0/(d+4.0))
+    h = 0.93
+    # h = sigma * n ** (-1.0/(d+4.0))
     return float(h)
 
 def parzen_pdf_generic(X_train, h, kernel="gaussian"):
