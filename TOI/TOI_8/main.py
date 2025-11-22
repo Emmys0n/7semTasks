@@ -120,6 +120,5 @@ def run_experiment(N: int, random_state: int = 42):
 
 
 #  ЗАПУСК ДЛЯ РАЗНЫХ ОБЪЁМОВ ВЫБОРКИ 
-# по заданию обычно нужно N = 50, 100, 1000
 for N in [50, 100, 1000]:
     run_experiment(N)
